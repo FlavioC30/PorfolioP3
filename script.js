@@ -109,31 +109,58 @@ if (window.innerWidth > 768) {
 // --- MAC VERBOSE BOOT SEQUENCE ---
 document.addEventListener("DOMContentLoaded", () => {
     const terminal = document.getElementById('boot-terminal');
-    const logs = [
-        "Darwin Kernel Version 22.1.0: root:xnu-8792.41.9~2/RELEASE_ARM64_T8112",
-        "Boot args: -v keepsyms=1 debug=0x100",
+    const baseLogs = [
+        "Darwin Kernel Version 23.4.0: root:xnu-10002.101.15~1/RELEASE_ARM64_T8122",
+        "Boot args: -v keepsyms=1 debug=0x100 -alcbeta -lilubeta",
         "Mac-FC-Architecture: Apple M3 Max",
-        "panic(cpu 0 caller 0xfffffe0013b8a1c): \"Unexpected genius activity detected\"",
-        "Initializing FC_OS Core System...",
+        "IOCPUNumber 0: Boot CPU",
+        "pmap_startup()",
+        "Kernel virtual memory map: 0xfffffe0000000000 - 0xfffffe3fffffffff",
+        "Zone names: zones_init",
+        "corecrypto kext initialized",
+        "routing socket initialized",
+        "Darwin Image4 Validator init",
+        "AppleFileSystemDriver: APFS initialization complete",
         "Virtual DOM Filesystem mounted at /dev/disk1s1",
-        "PWA Service Worker registered and active.",
+        "AppleMobileFileIntegrity: early init",
+        "panic(cpu 0 caller 0xfffffe0013b8a1c): \"Unexpected genius activity detected\"",
+        "Debugger configured",
         "ACPI: sleep states S0 S3 S4 S5",
+        "PWA Service Worker registered and active.",
         "IOKit daemon (rubicon) active.",
         "System Policy: Security set to Permissive for Developer Mode",
         "Graphic Engine: WebGL 2.0 initialized (Metal simulation via CSS3)",
         "[SUCCESS] UI Framework Loaded. Booting GUI..."
     ];
 
+    let allLogs = [];
+    baseLogs.forEach((log, index) => {
+        if(index === 6) {
+            for(let k=0; k<15; k++) allLogs.push(`[${(Math.random()*5).toFixed(6)}] AppleACPICPU: ProcessorId=${k} LocalApicId=${k} Enabled`);
+        }
+        if(index === 12) {
+            for(let k=0; k<25; k++) allLogs.push(`[${(Math.random()*5).toFixed(6)}] AppleImage4: firmware validation successful for module 0x${Math.floor(Math.random()*9999)}`);
+        }
+        if(index === 17) {
+            for(let k=0; k<10; k++) allLogs.push(`[${(Math.random()*5).toFixed(6)}] USB IOController: starting endpoint ${k}`);
+        }
+        allLogs.push(log);
+    });
+
     let i = 0;
     const interval = setInterval(() => {
-        if(i < logs.length) {
-            const p = document.createElement('div');
-            p.textContent = `[${(Math.random() * 2).toFixed(4)}] ${logs[i]}`;
-            p.style.marginBottom = '4px';
-            if(logs[i].includes('panic')) p.style.color = '#ffbd2e';
-            if(logs[i].includes('[SUCCESS]')) p.style.color = '#27c93f';
-            terminal.appendChild(p);
-            i++;
+        if(i < allLogs.length) {
+            // Print 2-4 logs at a time for that rapid-fire Matrix effect
+            let toPrint = Math.floor(Math.random() * 3) + 2;
+            for(let j=0; j<toPrint && i < allLogs.length; j++) {
+                const p = document.createElement('div');
+                p.textContent = `[${(Math.random() * 3).toFixed(4)}] ${allLogs[i]}`;
+                if(allLogs[i].includes('panic')) p.style.color = '#ffbd2e';
+                if(allLogs[i].includes('[SUCCESS]')) p.style.color = '#27c93f';
+                terminal.appendChild(p);
+                i++;
+            }
+            terminal.scrollTop = terminal.scrollHeight;
         } else {
             clearInterval(interval);
             setTimeout(() => {
@@ -141,11 +168,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const gui = document.getElementById('boot-gui');
                 gui.style.opacity = '1';
                 
-                // Progress Bar
+                // Progress Bar (Slower to enjoy the FC logo)
                 let progress = 0;
                 const bar = document.getElementById('boot-progress');
                 const loader = setInterval(() => {
-                    progress += Math.random() * 20;
+                    progress += Math.random() * 8 + 2;
                     if(progress > 100) progress = 100;
                     bar.style.width = progress + '%';
                     
@@ -160,12 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                 document.getElementById('desktop').classList.remove('hidden-desktop');
                                 fetchGitHubRepos('torvalds'); // Initialize GitHub Fetch
                             }, 800);
-                        }, 400);
+                        }, 600); // Hang at 100% for a sec
                     }
-                }, 80);
-            }, 800);
+                }, 120);
+            }, 600);
         }
-    }, 150);
+    }, 35); // 35ms means INSANELY fast scrolling!
 });
 
 // --- CLOCK ---

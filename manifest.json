@@ -1,0 +1,21 @@
+{
+  "name": "FC Portfolio OS",
+  "short_name": "FC_OS",
+  "description": "Portfolio interactivo simulando un ecosistema de escritorio.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#007aff",
+  "icons": [
+    {
+      "src": "C:/Users/Intel/.gemini/antigravity-ide/brain/8e5e3ce8-b93d-4307-a591-49cd9b11587e/profile_pic_1791566844588.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "C:/Users/Intel/.gemini/antigravity-ide/brain/8e5e3ce8-b93d-4307-a591-49cd9b11587e/profile_pic_1791566844588.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -167,12 +167,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 terminal.style.display = 'none';
                 const gui = document.getElementById('boot-gui');
                 gui.style.opacity = '1';
+                document.getElementById('boot-logo').style.opacity = '1';
+                document.getElementById('boot-logo').style.transform = 'scale(1)';
+                document.getElementById('boot-bar-container').style.opacity = '1';
+                document.getElementById('t-booting').style.opacity = '1';
                 
                 // Progress Bar (Slower to enjoy the FC logo)
                 let progress = 0;
                 const bar = document.getElementById('boot-progress');
                 const loader = setInterval(() => {
-                    progress += Math.random() * 8 + 2;
+                    progress += Math.random() * 6 + 1;
                     if(progress > 100) progress = 100;
                     bar.style.width = progress + '%';
                     
@@ -187,9 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 document.getElementById('desktop').classList.remove('hidden-desktop');
                                 fetchGitHubRepos('torvalds'); // Initialize GitHub Fetch
                             }, 800);
-                        }, 600); // Hang at 100% for a sec
+                        }, 1200); // Hang at 100% for a sec
                     }
-                }, 120);
+                }, 100);
             }, 600);
         }
     }, 35); // 35ms means INSANELY fast scrolling!

@@ -25,18 +25,17 @@
     <div id="brightness-overlay"></div>
 
     <!-- Boot Screen -->
-    <div id="boot-screen">
-        <div id="boot-terminal">
-            <div class="typewriter" id="tw-1" style="display:none; width:0;">Initialize FC_Kernel v3.1.4... [OK]</div>
-            <div class="typewriter" id="tw-2" style="display:none; width:0; margin-top:5px;">Mounting Virtual DOM FileSystem... [OK]</div>
-            <div class="typewriter" id="tw-3" style="display:none; width:0; margin-top:5px; color:#ffbd2e;">Warning: Genius level developer detected.</div>
-            <div class="typewriter" id="tw-4" style="display:none; width:0; margin-top:5px;">Launching UI Framework...</div>
+    <div id="boot-screen" style="background-color: #000;">
+        <div id="boot-terminal" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 20px; color: #fff; font-family: monospace; font-size: 13px; overflow: hidden; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; z-index: 2;">
+            <!-- Injected by JS -->
         </div>
-        <div class="apple-logo-large" style="font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: -4px; font-size: 90px;" id="boot-logo">FC</div>
-        <div class="progress-bar-container" id="boot-bar-container">
-            <div class="progress-bar" id="boot-progress"></div>
+        <div id="boot-gui" style="opacity: 0; position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 3; transition: opacity 0.5s;">
+            <div class="apple-logo-large" style="font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: -4px; font-size: 90px; color: #fff;" id="boot-logo">FC</div>
+            <div class="progress-bar-container" id="boot-bar-container">
+                <div class="progress-bar" id="boot-progress"></div>
+            </div>
+            <div class="boot-text" style="color: #fff;" id="t-booting">Cargando FC_OS...</div>
         </div>
-        <div class="boot-text" id="t-booting">Cargando FC_OS...</div>
     </div>
 
     <!-- Desktop Environment -->

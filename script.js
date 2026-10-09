@@ -106,47 +106,66 @@ if (window.innerWidth > 768) {
     });
 }
 
-// --- HACKER BOOT SEQUENCE ---
+// --- MAC VERBOSE BOOT SEQUENCE ---
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Matrix Typewriter Effect
-    setTimeout(() => { document.getElementById('tw-1').style.display = 'block'; }, 200);
-    setTimeout(() => { document.getElementById('tw-2').style.display = 'block'; }, 1000);
-    setTimeout(() => { document.getElementById('tw-3').style.display = 'block'; }, 1800);
-    setTimeout(() => { document.getElementById('tw-4').style.display = 'block'; }, 2600);
+    const terminal = document.getElementById('boot-terminal');
+    const logs = [
+        "Darwin Kernel Version 22.1.0: root:xnu-8792.41.9~2/RELEASE_ARM64_T8112",
+        "Boot args: -v keepsyms=1 debug=0x100",
+        "Mac-FC-Architecture: Apple M3 Max",
+        "panic(cpu 0 caller 0xfffffe0013b8a1c): \"Unexpected genius activity detected\"",
+        "Initializing FC_OS Core System...",
+        "Virtual DOM Filesystem mounted at /dev/disk1s1",
+        "PWA Service Worker registered and active.",
+        "ACPI: sleep states S0 S3 S4 S5",
+        "IOKit daemon (rubicon) active.",
+        "System Policy: Security set to Permissive for Developer Mode",
+        "Graphic Engine: WebGL 2.0 initialized (Metal simulation via CSS3)",
+        "[SUCCESS] UI Framework Loaded. Booting GUI..."
+    ];
 
-    // 2. Clear Terminal and show Apple Logo
-    setTimeout(() => {
-        document.getElementById('boot-terminal').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('boot-logo').style.opacity = '1';
-            document.getElementById('boot-logo').style.transform = 'scale(1)';
-            document.getElementById('boot-bar-container').style.opacity = '1';
-            document.getElementById('t-booting').style.opacity = '1';
-            
-            // 3. Progress Bar
-            let progress = 0;
-            const bar = document.getElementById('boot-progress');
-            const interval = setInterval(() => {
-                progress += Math.random() * 25;
-                if(progress > 100) progress = 100;
-                bar.style.width = progress + '%';
+    let i = 0;
+    const interval = setInterval(() => {
+        if(i < logs.length) {
+            const p = document.createElement('div');
+            p.textContent = `[${(Math.random() * 2).toFixed(4)}] ${logs[i]}`;
+            p.style.marginBottom = '4px';
+            if(logs[i].includes('panic')) p.style.color = '#ffbd2e';
+            if(logs[i].includes('[SUCCESS]')) p.style.color = '#27c93f';
+            terminal.appendChild(p);
+            i++;
+        } else {
+            clearInterval(interval);
+            setTimeout(() => {
+                terminal.style.display = 'none';
+                const gui = document.getElementById('boot-gui');
+                gui.style.opacity = '1';
                 
-                if(progress === 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('boot-screen').style.opacity = '0';
-                        document.getElementById('boot-screen').style.transform = 'scale(1.1)';
+                // Progress Bar
+                let progress = 0;
+                const bar = document.getElementById('boot-progress');
+                const loader = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if(progress > 100) progress = 100;
+                    bar.style.width = progress + '%';
+                    
+                    if(progress === 100) {
+                        clearInterval(loader);
                         setTimeout(() => {
-                            document.getElementById('boot-screen').style.display = 'none';
-                            document.getElementById('desktop').classList.remove('hidden-desktop');
-                            fetchGitHubRepos('torvalds'); // Init GitHub fetch
-                        }, 1200);
-                    }, 400);
-                }
-            }, 80);
-            
-        }, 500);
-    }, 3400);
+                            const bootScreen = document.getElementById('boot-screen');
+                            bootScreen.style.opacity = '0';
+                            bootScreen.style.transform = 'scale(1.1)';
+                            setTimeout(() => {
+                                bootScreen.style.display = 'none';
+                                document.getElementById('desktop').classList.remove('hidden-desktop');
+                                fetchGitHubRepos('torvalds'); // Initialize GitHub Fetch
+                            }, 800);
+                        }, 400);
+                    }
+                }, 80);
+            }, 800);
+        }
+    }, 150);
 });
 
 // --- CLOCK ---
